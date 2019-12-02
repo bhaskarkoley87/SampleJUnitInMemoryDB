@@ -12,7 +12,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -44,26 +44,25 @@ class StudentDAOTest {
     settings.put(Environment.HBM2DDL_AUTO, "create-drop");
     configuration.setProperties(settings);
     configuration.addAnnotatedClass(Student.class);
-    ServiceRegistry serviceRegistry =
-        new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
     sessionFactory = configuration.buildSessionFactory(serviceRegistry);
   }
 
   @Test
   @Order(1)
+  @DisplayName("Test Student Add")
   void studenAddTest() {
     when(hibernateUtil.getSessionFactory()).thenReturn(sessionFactory);
-
     studentDao = new StudentDAO(hibernateUtil);
-    Student student = new Student(1, "Ajit Sharma");
+    Student student = new Student(1, "Bhaskar Koley");
     assertEquals(true, studentDao.addStudent(student));
   }
 
   @Test
   @Order(2)
+  @DisplayName("Test Student Retrival")
   void studenGetTest() {
     when(hibernateUtil.getSessionFactory()).thenReturn(sessionFactory);
-
     studentDao = new StudentDAO(hibernateUtil);
     List<Student> studentList = studentDao.getStudents();
     assertEquals(1, studentList.size());
